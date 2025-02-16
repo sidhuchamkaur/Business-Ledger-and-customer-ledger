@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Ledger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: auto;
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        input, button, select {
+            margin: 5px 0;
+            padding: 12px;
+            width: calc(100% - 24px);
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+            transform: scale(1.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .action-buttons button {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            padding: 8px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .action-buttons button:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Business Ledger</h2>
+        <input type="text" id="amount" placeholder="Amount">
+        <input type="text" id="description" placeholder="Description">
+        <select id="transactionType">
+            <option value="Credit">Credit</option>
+            <option value="Debit">Debit</option>
+        </select>
+        <button onclick="addTransaction()">Add Transaction</button>
+        
+        <h3>Transactions</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="transactionTable"></tbody>
+        </table>
+        
+        <h3>Customer Udhaar Khata</h3>
+        <input type="text" id="customerName" placeholder="Customer Name">
+        <input type="text" id="udhaarAmount" placeholder="Amount">
+        <input type="text" id="udhaarDescription" placeholder="Description">
+        <input type="date" id="udhaarDate">
+        <select id="status">
+            <option value="Bakaya">Bakaya</option>
+            <option value="Chukaya">Chukaya</option>
+        </select>
+        <button onclick="addUdhaar()">Add Udhaar</button>
+        
+        <h3>Udhaar Records</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="udhaarTable"></tbody>
+        </table>
+    </div>
+    
+    <script>
+        function addTransaction() {
+            let amount = document.getElementById("amount").value;
+            let description = document.getElementById("description").value;
+            let type = document.getElementById("transactionType").value;
+            let date = new Date().toLocaleDateString();
+            
+            if (amount === "" || description === "") {
+                alert("Please fill all fields");
+                return;
+            }
+            
+            let table = document.getElementById("transactionTable");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${date}</td><td>${amount}</td><td>${description}</td><td>${type}</td><td class='action-buttons'><button onclick='this.parentElement.parentElement.remove()'>Delete</button></td>`;
+            
+            document.getElementById("amount").value = "";
+            document.getElementById("description").value = "";
+        }
+        
+        function addUdhaar() {
+            let name = document.getElementById("customerName").value;
+            let amount = document.getElementById("udhaarAmount").value;
+            let description = document.getElementById("udhaarDescription").value;
+            let date = document.getElementById("udhaarDate").value;
+            let status = document.getElementById("status").value;
+            
+            if (name === "" || amount === "" || description === "" || date === "") {
+                alert("Please fill all fields");
+                return;
+            }
+            
+            let table = document.getElementById("udhaarTable");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${name}</td><td>${amount}</td><td>${description}</td><td>${date}</td><td>${status}</td><td class='action-buttons'><button onclick='this.parentElement.parentElement.remove()'>Delete</button></td>`;
+            
+            document.getElementById("customerName").value = "";
+            document.getElementById("udhaarAmount").value = "";
+            document.getElementById("udhaarDescription").value = "";
+            document.getElementById("udhaarDate").value = "";
+        }
+    </script>
+</body>
+</html>
